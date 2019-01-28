@@ -15,10 +15,7 @@ public class GameRunner {
     }
 
     public static void playGame(final Random rand) {
-        final Game aGame = new Game();
-        aGame.add("Chet");
-        aGame.add("Pat");
-        aGame.add("Sue");
+        final Game aGame = new Game("Chet", "Pat", "Sue");
 
         do {
             aGame.roll(rand.nextInt(5) + 1);
