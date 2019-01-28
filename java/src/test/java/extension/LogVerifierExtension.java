@@ -10,12 +10,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.platform.commons.util.ToStringBuilder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoAssertionError;
