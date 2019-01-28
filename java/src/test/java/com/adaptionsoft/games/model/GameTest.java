@@ -225,10 +225,13 @@ public class GameTest {
     @Test
     public void askQuestion_should_remove_first_element_of_popQuestions_when_current_categorie_is_POP() {
         // Given
-        final LinkedList<String> popQuestions = new LinkedList<>(Arrays.asList("1", "2"));
-        final LinkedList<String> rockQuestions = new LinkedList<>(Arrays.asList("2", "3"));
-        final LinkedList<String> sportsQuestions = new LinkedList<>(Arrays.asList("3", "4"));
-        final LinkedList<String> scienceQuestions = new LinkedList<>(Arrays.asList("4", "5"));
+        final Question popQuestion = new Question(2, Category.POP);
+        final LinkedList<Question> popQuestions = new LinkedList<>(Arrays.asList(new Question(1, Category.POP), popQuestion));
+        final LinkedList<Question> rockQuestions = new LinkedList<>(Arrays.asList(new Question(2, Category.ROCK), new Question(3, Category.ROCK)));
+        final LinkedList<Question> sportsQuestions = new LinkedList<>(
+                Arrays.asList(new Question(3, Category.SPORT), new Question(4, Category.SPORT)));
+        final LinkedList<Question> scienceQuestions = new LinkedList<>(
+                Arrays.asList(new Question(4, Category.SCIENCE), new Question(5, Category.SCIENCE)));
 
         final Game game = spy(new Game("Chet", "Pat", "Sue"));
         game.setPopQuestions(popQuestions);
@@ -241,7 +244,7 @@ public class GameTest {
         game.askQuestion();
 
         // Then
-        assertThat(game.getPopQuestions()).containsExactly("2");
+        assertThat(game.getPopQuestions()).containsExactly(popQuestion);
         assertThat(game.getRockQuestions()).containsAll(rockQuestions);
         assertThat(game.getSportsQuestions()).containsAll(sportsQuestions);
         assertThat(game.getScienceQuestions()).containsAll(scienceQuestions);
@@ -253,10 +256,14 @@ public class GameTest {
     @Test
     public void askQuestion_should_remove_first_element_of_rockQuestions_when_current_categorie_is_ROCK() {
         // Given
-        final LinkedList<String> popQuestions = new LinkedList<>(Arrays.asList("1", "2"));
-        final LinkedList<String> rockQuestions = new LinkedList<>(Arrays.asList("2", "3"));
-        final LinkedList<String> sportsQuestions = new LinkedList<>(Arrays.asList("3", "4"));
-        final LinkedList<String> scienceQuestions = new LinkedList<>(Arrays.asList("4", "5"));
+        final LinkedList<Question> popQuestions = new LinkedList<>(Arrays.asList(new Question(1, Category.POP), new Question(2, Category.POP)));
+
+        final Question rockQuestion = new Question(3, Category.ROCK);
+        final LinkedList<Question> rockQuestions = new LinkedList<>(Arrays.asList(new Question(2, Category.ROCK), rockQuestion));
+        final LinkedList<Question> sportsQuestions = new LinkedList<>(
+                Arrays.asList(new Question(3, Category.SPORT), new Question(4, Category.SPORT)));
+        final LinkedList<Question> scienceQuestions = new LinkedList<>(
+                Arrays.asList(new Question(4, Category.SCIENCE), new Question(5, Category.SCIENCE)));
 
         final Game game = spy(new Game("Chet", "Pat", "Sue"));
         game.setPopQuestions(popQuestions);
@@ -270,7 +277,7 @@ public class GameTest {
 
         // Then
         assertThat(game.getPopQuestions()).containsAll(popQuestions);
-        assertThat(game.getRockQuestions()).containsExactly("3");
+        assertThat(game.getRockQuestions()).containsExactly(rockQuestion);
         assertThat(game.getSportsQuestions()).containsAll(sportsQuestions);
         assertThat(game.getScienceQuestions()).containsAll(scienceQuestions);
     }
@@ -281,10 +288,13 @@ public class GameTest {
     @Test
     public void askQuestion_should_remove_first_element_of_scienceQuestions_when_current_categorie_is_SPORT() {
         // Given
-        final LinkedList<String> popQuestions = new LinkedList<>(Arrays.asList("1", "2"));
-        final LinkedList<String> rockQuestions = new LinkedList<>(Arrays.asList("2", "3"));
-        final LinkedList<String> sportsQuestions = new LinkedList<>(Arrays.asList("3", "4"));
-        final LinkedList<String> scienceQuestions = new LinkedList<>(Arrays.asList("4", "5"));
+        final LinkedList<Question> popQuestions = new LinkedList<>(Arrays.asList(new Question(1, Category.POP), new Question(2, Category.POP)));
+        final LinkedList<Question> rockQuestions = new LinkedList<>(Arrays.asList(new Question(2, Category.ROCK), new Question(3, Category.ROCK)));
+
+        final Question sportQuestion = new Question(4, Category.SPORT);
+        final LinkedList<Question> sportsQuestions = new LinkedList<>(Arrays.asList(new Question(3, Category.SPORT), sportQuestion));
+        final LinkedList<Question> scienceQuestions = new LinkedList<>(
+                Arrays.asList(new Question(4, Category.SCIENCE), new Question(5, Category.SCIENCE)));
 
         final Game game = spy(new Game("Chet", "Pat", "Sue"));
         game.setPopQuestions(popQuestions);
@@ -299,7 +309,7 @@ public class GameTest {
         // Then
         assertThat(game.getPopQuestions()).containsAll(popQuestions);
         assertThat(game.getRockQuestions()).containsAll(rockQuestions);
-        assertThat(game.getSportsQuestions()).containsExactly("4");
+        assertThat(game.getSportsQuestions()).containsExactly(sportQuestion);
         assertThat(game.getScienceQuestions()).containsAll(scienceQuestions);
     }
 
@@ -309,10 +319,13 @@ public class GameTest {
     @Test
     public void askQuestion_should_remove_first_element_of_scienceQuestions_when_current_categorie_is_SCIENCE() {
         // Given
-        final LinkedList<String> popQuestions = new LinkedList<>(Arrays.asList("1", "2"));
-        final LinkedList<String> rockQuestions = new LinkedList<>(Arrays.asList("2", "3"));
-        final LinkedList<String> sportsQuestions = new LinkedList<>(Arrays.asList("3", "4"));
-        final LinkedList<String> scienceQuestions = new LinkedList<>(Arrays.asList("4", "5"));
+        final LinkedList<Question> popQuestions = new LinkedList<>(Arrays.asList(new Question(1, Category.POP), new Question(2, Category.POP)));
+        final LinkedList<Question> rockQuestions = new LinkedList<>(Arrays.asList(new Question(2, Category.ROCK), new Question(3, Category.ROCK)));
+        final LinkedList<Question> sportsQuestions = new LinkedList<>(
+                Arrays.asList(new Question(3, Category.SPORT), new Question(4, Category.SPORT)));
+
+        final Question scienceQuestion = new Question(5, Category.SCIENCE);
+        final LinkedList<Question> scienceQuestions = new LinkedList<>(Arrays.asList(new Question(4, Category.SCIENCE), scienceQuestion));
 
         final Game game = spy(new Game("Chet", "Pat", "Sue"));
         game.setPopQuestions(popQuestions);
@@ -328,7 +341,7 @@ public class GameTest {
         assertThat(game.getPopQuestions()).containsAll(popQuestions);
         assertThat(game.getRockQuestions()).containsAll(rockQuestions);
         assertThat(game.getSportsQuestions()).containsAll(sportsQuestions);
-        assertThat(game.getScienceQuestions()).containsExactly("5");
+        assertThat(game.getScienceQuestions()).containsExactly(scienceQuestion);
     }
 
 }
