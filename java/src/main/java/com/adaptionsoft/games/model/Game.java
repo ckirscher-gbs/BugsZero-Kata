@@ -1,16 +1,19 @@
-package com.adaptionsoft.games.uglytrivia;
+package com.adaptionsoft.games.model;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Game {
 
     private final List<String> players = new ArrayList<>();
-    private final int[] places = new int[6];
+
+    @Setter
+    private int[] places = new int[6];
     private final int[] purses = new int[6];
     private final boolean[] inPenaltyBox = new boolean[6];
 
@@ -19,6 +22,7 @@ public class Game {
     private final List<String> sportsQuestions = new LinkedList<>();
     private final List<String> rockQuestions = new LinkedList<>();
 
+    @Setter
     private int currentPlayer = 0;
     private boolean isGettingOutOfPenaltyBox;
 
@@ -133,35 +137,10 @@ public class Game {
         }
     }
 
-    private String currentCategory() {
-        if (places[currentPlayer] == 0) {
-            return "Pop";
-        }
-        if (places[currentPlayer] == 4) {
-            return "Pop";
-        }
-        if (places[currentPlayer] == 8) {
-            return "Pop";
-        }
-        if (places[currentPlayer] == 1) {
-            return "Science";
-        }
-        if (places[currentPlayer] == 5) {
-            return "Science";
-        }
-        if (places[currentPlayer] == 9) {
-            return "Science";
-        }
-        if (places[currentPlayer] == 2) {
-            return "Sports";
-        }
-        if (places[currentPlayer] == 6) {
-            return "Sports";
-        }
-        if (places[currentPlayer] == 10) {
-            return "Sports";
-        }
-        return "Rock";
+    String currentCategory() {
+        final Category[] categories = Category.values();
+        final int index = places[currentPlayer] % categories.length;
+        return categories[index].getName();
     }
 
     public boolean wasCorrectlyAnswered() {
