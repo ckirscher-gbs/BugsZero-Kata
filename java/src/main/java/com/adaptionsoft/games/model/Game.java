@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,10 +18,18 @@ public class Game {
     private final int[] purses = new int[6];
     private final boolean[] inPenaltyBox = new boolean[6];
 
-    private final List<String> popQuestions = new LinkedList<>();
-    private final List<String> scienceQuestions = new LinkedList<>();
-    private final List<String> sportsQuestions = new LinkedList<>();
-    private final List<String> rockQuestions = new LinkedList<>();
+    @Getter
+    @Setter
+    private List<String> popQuestions = new LinkedList<>();
+    @Getter
+    @Setter
+    private List<String> scienceQuestions = new LinkedList<>();
+    @Getter
+    @Setter
+    private List<String> sportsQuestions = new LinkedList<>();
+    @Getter
+    @Setter
+    private List<String> rockQuestions = new LinkedList<>();
 
     @Setter
     private int currentPlayer = 0;
@@ -122,25 +131,23 @@ public class Game {
         askQuestion();
     }
 
-    private void askQuestion() {
-        if (currentCategory() == "Pop") {
+    void askQuestion() {
+        final Category currentCategory = currentCategory();
+        if (Category.POP.equals(currentCategory)) {
             System.out.println(((LinkedList<String>) popQuestions).removeFirst());
-        }
-        if (currentCategory() == "Science") {
+        } else if (Category.SCIENCE.equals(currentCategory)) {
             System.out.println(((LinkedList<String>) scienceQuestions).removeFirst());
-        }
-        if (currentCategory() == "Sports") {
+        } else if (Category.SPORT.equals(currentCategory)) {
             System.out.println(((LinkedList<String>) sportsQuestions).removeFirst());
-        }
-        if (currentCategory() == "Rock") {
+        } else if (Category.ROCK.equals(currentCategory)) {
             System.out.println(((LinkedList<String>) rockQuestions).removeFirst());
         }
     }
 
-    String currentCategory() {
+    Category currentCategory() {
         final Category[] categories = Category.values();
         final int index = places[currentPlayer] % categories.length;
-        return categories[index].getName();
+        return categories[index];
     }
 
     public boolean wasCorrectlyAnswered() {

@@ -11,7 +11,7 @@ import lombok.Getter;
 public enum Category {
                       POP("Pop"),
                       SCIENCE("Science"),
-                      SPORTS("Sports"),
+                      SPORT("Sport"),
                       ROCK("Rock");
 
     @Getter
