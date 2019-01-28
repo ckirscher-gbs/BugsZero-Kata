@@ -2,21 +2,25 @@ package com.adaptionsoft.games.uglytrivia;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Game {
 
-    ArrayList players = new ArrayList();
-    int[] places = new int[6];
-    int[] purses = new int[6];
-    boolean[] inPenaltyBox = new boolean[6];
+    private final List<String> players = new ArrayList<>();
+    private final int[] places = new int[6];
+    private final int[] purses = new int[6];
+    private final boolean[] inPenaltyBox = new boolean[6];
 
-    LinkedList popQuestions = new LinkedList();
-    LinkedList scienceQuestions = new LinkedList();
-    LinkedList sportsQuestions = new LinkedList();
-    LinkedList rockQuestions = new LinkedList();
+    private final List<String> popQuestions = new LinkedList<>();
+    private final List<String> scienceQuestions = new LinkedList<>();
+    private final List<String> sportsQuestions = new LinkedList<>();
+    private final List<String> rockQuestions = new LinkedList<>();
 
-    int currentPlayer = 0;
-    boolean isGettingOutOfPenaltyBox;
+    private int currentPlayer = 0;
+    private boolean isGettingOutOfPenaltyBox;
 
     /**
      * It used to be possible to construct a game with less than two players and with more than six players however at
@@ -55,10 +59,10 @@ public class Game {
 
     private void createQuestions() {
         for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast("Science Question " + i);
-            sportsQuestions.addLast("Sports Question " + i);
-            rockQuestions.addLast(createRockQuestion(i));
+            ((LinkedList<String>) popQuestions).addLast("Pop Question " + i);
+            ((LinkedList<String>) scienceQuestions).addLast("Science Question " + i);
+            ((LinkedList<String>) sportsQuestions).addLast("Sports Question " + i);
+            ((LinkedList<String>) rockQuestions).addLast(createRockQuestion(i));
         }
     }
 
@@ -67,7 +71,6 @@ public class Game {
     }
 
     private boolean add(final String playerName) {
-
         players.add(playerName);
         places[howManyPlayers()] = 0;
         purses[howManyPlayers()] = 0;
@@ -117,16 +120,16 @@ public class Game {
 
     private void askQuestion() {
         if (currentCategory() == "Pop") {
-            System.out.println(popQuestions.removeFirst());
+            System.out.println(((LinkedList<String>) popQuestions).removeFirst());
         }
         if (currentCategory() == "Science") {
-            System.out.println(scienceQuestions.removeFirst());
+            System.out.println(((LinkedList<String>) scienceQuestions).removeFirst());
         }
         if (currentCategory() == "Sports") {
-            System.out.println(sportsQuestions.removeFirst());
+            System.out.println(((LinkedList<String>) sportsQuestions).removeFirst());
         }
         if (currentCategory() == "Rock") {
-            System.out.println(rockQuestions.removeFirst());
+            System.out.println(((LinkedList<String>) rockQuestions).removeFirst());
         }
     }
 
@@ -172,31 +175,27 @@ public class Game {
                 purses[currentPlayer]++;
                 System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
 
-                final boolean winner = didPlayerWin();
-
-                return winner;
-            } else {
-                currentPlayer++;
-                if (currentPlayer == players.size()) {
-                    currentPlayer = 0;
-                }
-                return true;
+                return !didPlayerWin();
             }
 
-        } else {
-
-            System.out.println("Answer was corrent!!!!");
-            purses[currentPlayer]++;
-            System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
-
-            final boolean winner = didPlayerWin();
             currentPlayer++;
             if (currentPlayer == players.size()) {
                 currentPlayer = 0;
             }
-
-            return winner;
+            return false;
         }
+
+        System.out.println("Answer was corrent!!!!");
+        purses[currentPlayer]++;
+        System.out.println(players.get(currentPlayer) + " now has " + purses[currentPlayer] + " Gold Coins.");
+
+        final boolean winner = didPlayerWin();
+        currentPlayer++;
+        if (currentPlayer == players.size()) {
+            currentPlayer = 0;
+        }
+
+        return !winner;
     }
 
     public boolean wrongAnswer() {
@@ -208,7 +207,7 @@ public class Game {
         if (currentPlayer == players.size()) {
             currentPlayer = 0;
         }
-        return true;
+        return false;
     }
 
     private boolean didPlayerWin() {
