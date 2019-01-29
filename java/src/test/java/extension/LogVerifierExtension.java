@@ -19,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoAssertionError;
-import org.mockito.exceptions.verification.junit.ArgumentsAreDifferent;
 import org.mockito.verification.VerificationMode;
 import org.slf4j.LoggerFactory;
 
@@ -179,13 +178,14 @@ public class LogVerifierExtension implements BeforeEachCallback, AfterTestExecut
                 Mockito.verify(appender, verificationMode).doAppend(argThat(argument -> logEvent.matches(argument)));
             } catch (final MockitoAssertionError e) {
                 throw new MockitoAssertionError("Expected event=[" + logEvent + "] with [" + verificationMode + "] but got " + e.getMessage());
-            } catch (final ArgumentsAreDifferent e) {
-                final String wanted = "appender.doAppend(\n    [" + logEvent.level + "] " + logEvent.message + "\n);";
-                final String actual = e.getActual();
-                final ArgumentsAreDifferent exception = new ArgumentsAreDifferent(
-                        "Argument(s) are different! Wanted:\n" + wanted + "\nActual invocation has different arguments:\n" + actual, wanted, actual);
-                exception.setStackTrace(e.getStackTrace());
-                throw exception;
+                // } catch (final ArgumentsAreDifferent e) {
+                // final String wanted = "appender.doAppend(\n [" + logEvent.level + "] " + logEvent.message + "\n);";
+                // final String actual = e.getActual();
+                // final ArgumentsAreDifferent exception = new ArgumentsAreDifferent(
+                // "Argument(s) are different! Wanted:\n" + wanted + "\nActual invocation has different arguments:\n" +
+                // actual, wanted, actual);
+                // exception.setStackTrace(e.getStackTrace());
+                // throw exception;
             }
         }
     }
